@@ -25,12 +25,12 @@ body {
 .star {
   position: absolute;
   cursor: grab;
-  background: red;               /* 🔴 빨간색 원 */
-  border-radius: 50%;            /* 완전한 원 */
+  border-radius: 50%;
   width: 20px;
   height: 20px;
   animation: twinkle 1.5s infinite ease-in-out alternate;
-  box-shadow: 0 0 5px red;
+  box-shadow: 0 0 5px white; /* 초기값: JS에서 override됨 */
+  /* ✅ background 없음! JS에서 넣음 */
 }
 .star:active {
   cursor: grabbing;
@@ -82,6 +82,8 @@ body {
   z-index: 999;
   background: transparent;
 
+  white-space: nowrap;       /* ✅ 한 줄 강제 */
+  flex-wrap: nowrap;         /* ✅ 줄바꿈 금지 */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -89,33 +91,39 @@ body {
   display: none;
 }
 
+
 /* 개별 메시지 박스 */
 .message-box {
   background: transparent;
   color: white;
-  padding: 10px 15px;
-  min-width: 250px;
-  max-width: 350px;
+  padding: 10px 5px;
   flex-shrink: 0;
-  white-space: pre-wrap;
   text-align: left;
   border-left: none;
   box-shadow: none;
+  display: inline-block;
+  white-space: nowrap;          /* ✅ 한 줄 고정 */
+  overflow: visible;            /* ✅ 내용 넘치도록 허용 */
 }
+
 .message-box p {
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
+  white-space: nowrap;          /* ✅ 텍스트도 한 줄 */
+  overflow: visible;            /* ✅ 잘리지 않게 */
 }
+
 
 /* 저장 버튼 (큰 흰색 원) */
 #download-btn {
   position: fixed;
-  top: 30px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  background: orangered;
+  bottom: 30px;         /* ⬅ 하단에서 30px 위 */
+  left: 50%;            /* ⬅ 화면 가로 중앙 */
+  transform: translateX(-50%); /* ⬅ 정확히 중앙 정렬 */
+  width: 30px;
+  height: 30px;
+  background: rgb(0, 0, 0);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -123,6 +131,8 @@ body {
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease;
 }
+
 #download-btn:hover {
-  transform: scale(1.1);
+  transform: translateX(-50%) scale(1.1); /* ⬅ hover 시 커지면서 위치 유지 */
 }
+
