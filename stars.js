@@ -29,7 +29,7 @@ const papers = [
   },
   {
     title: "세컨드 브레인",
-    text: "이 책 저 책을 동시에 읽곤 했다. 그들은 내용의 일부를 발췌한 다음 노트의 서로 다른 부분에 옮겨 적어 새로운 패턴을 만들었다. 그런 식으로 발췌문을 계속 추가하며 내용을 다시 읽고 패턴을 재배열하였다. 따라서 독서와 작문은 분리할 수 없는 활동이었다.",
+    text: "이 책 저 책을 동시에 읽곤 했다. 그들은 내용의 일부를 발췌한 다음 노트의 서로 다른 부분에 옮겨 적어 새로운 패턴을 만들었다.",
   },
   {
     title: "세컨드 브레인",
@@ -52,29 +52,9 @@ const papers = [
     text: "그렇게 미치도록 싫었던 내 방에 어제 나는 새로 산 러그를 깔았다.",
   },
   {
-    title: "미하엘 하우스켈러, 왜 살아야 하는가 - Marcel Proust",
+    title: "미하엘 하우스켈러",
     text: "우리 생각과는 달리 사람들은 안정된 독립체가 아니라 사건의 연속체다.",
-  },
-  {
-    title: "미하엘 하우스켈러, 왜 살아야 하는가 - Marcel Proust",
-    text: "그러므로 집도 도로도 거리도 마치 시간처럼 시시각각 흘러가고 있다.",
-  },
-  {
-    title: "미하엘 하우스켈러, 왜 살아야 하는가 - Marcel Proust",
-    text: "우리가 지금 사랑하고 있는 사람들이 언젠가 사라진다는 사실은 생각하는 것만으로도 충분히 끔찍하지만,",
-  },
-  {
-    title: "미하엘 하우스켈러, 왜 살아야 하는가 - Marcel Proust",
-    text: "지금 상태에 머무르는 것에는 아무런 가치가 없다.",
-  },
-  {
-    title: "미하엘 하우스켈러, 왜 살아야 하는가 - Marcel Proust",
-    text: "하지만 내심 극서들이 내가 이해할 수 없는 무언가를 숨기고 있는 것 같다는 느낌을 받았다.",
-  },
-  {
-    title: "크리스티앙 보뱅, 인간, 즐거움",
-    text: "그렇지 않은가요?",
-  },
+  }
 ];
 
 // ✅ 네온 색상 목록
@@ -86,7 +66,13 @@ function getRandomNeonColor() {
   return neonColors[Math.floor(Math.random() * neonColors.length)];
 }
 
-// ✅ 드래그 가능한 별
+// ✅ 다운로드 버튼 숫자 업데이트
+function updateDownloadCount() {
+  const count = document.querySelectorAll(".message-box").length;
+  document.getElementById("download-btn").textContent = count;
+}
+
+// ✅ 드래그 기능
 function makeDraggable(el) {
   let isDragging = false;
   let offsetX, offsetY;
@@ -118,10 +104,12 @@ function makeDraggable(el) {
       e.stopPropagation();
       return;
     }
+
     const msg = document.createElement("div");
     msg.classList.add("message-box");
     msg.innerHTML = `<p>${el.dataset.text}</p>`;
     document.getElementById("message-container").appendChild(msg);
+    updateDownloadCount(); // ✅ 메시지 수 갱신
   });
 }
 
@@ -137,7 +125,7 @@ papers.forEach((entry) => {
   star.style.top = `${Math.random() * 90}%`;
   star.style.left = `${Math.random() * 90}%`;
 
-  // ✅ 색상 + glow
+  // 색상 + glow
   const color = getRandomNeonColor();
   star.style.backgroundColor = color;
   star.style.boxShadow = `0 0 8px ${color}, 0 0 16px ${color}`;
@@ -173,16 +161,19 @@ document.getElementById("download-btn").addEventListener("click", () => {
     return;
   }
 
+
+
+  // ✅ 텍스트 이어붙이기 (줄바꿈 없이)
   let combinedText = "";
-  boxes.forEach((p, index) => {
-    combinedText += `--- ${index + 1} ---\n${p.textContent}\n\n`;
+  boxes.forEach((p) => {
+    combinedText += p.textContent.trim() + " ";
   });
 
   const now = new Date();
   const dateStr = now.toISOString().split("T")[0];
   const fileName = `${dateStr}_fruits.txt`;
 
-  const blob = new Blob([combinedText], { type: "text/plain;charset=utf-8" });
+  const blob = new Blob([combinedText.trim()], { type: "text/plain;charset=utf-8" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = fileName;
@@ -191,9 +182,12 @@ document.getElementById("download-btn").addEventListener("click", () => {
   document.body.removeChild(link);
 
   document.getElementById("message-container").innerHTML = "";
+  updateDownloadCount();
 });
 
-// ✅ 배경 그라디언트 변경
+  
+
+// ✅ 배경 변경
 function generateRandomConicGradient() {
   const neonColors = [
     "#39ff14", "#00ffff", "#ff00ff", "#ff073a",
@@ -216,3 +210,6 @@ document.body.addEventListener("click", (e) => {
   }
   document.body.style.background = generateRandomConicGradient();
 });
+
+
+

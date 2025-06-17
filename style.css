@@ -116,23 +116,28 @@ body {
 
 
 /* 저장 버튼 (큰 흰색 원) */
-#download-btn {
+ #download-btn {
   position: fixed;
-  bottom: 30px;         /* ⬅ 하단에서 30px 위 */
-  left: 50%;            /* ⬅ 화면 가로 중앙 */
-  transform: translateX(-50%); /* ⬅ 정확히 중앙 정렬 */
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 30px;
   height: 30px;
-  background: rgb(255, 254, 254);
+  background: white;
+  color: rgb(110, 110, 110);                 /* 숫자 색상 */
+  font-size: 14px;              /* 숫자 크기 */
+  font-weight: regular;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 #download-btn:hover {
-  transform: translateX(-50%) scale(1.1); /* ⬅ hover 시 커지면서 위치 유지 */
+  transform: translateX(-50%) scale(1.1);
 }
 
